@@ -4,12 +4,14 @@ import 'package:objectbox/objectbox.dart';
 class SofUsersEntity extends Equatable {
   const SofUsersEntity({
     this.items,
+    this.hasMore
   });
 
   final List<SofUserEntity>? items;
+  final bool? hasMore;
 
   @override
-  List<Object?> get props => [items];
+  List<Object?> get props => [items,hasMore];
 }
 
 @Entity()
@@ -29,6 +31,7 @@ class SofUserEntity extends Equatable {
   final String? location;
   final String? profileImage;
   final String? displayName;
+  
 
   @override
   List<Object?> get props =>

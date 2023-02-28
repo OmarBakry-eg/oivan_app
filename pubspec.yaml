@@ -29,6 +29,7 @@ dependencies:
 
   internet_connection_checker: ^1.0.0+1
   objectbox_flutter_libs: ^1.7.2
+  cached_network_image: ^3.2.3
   flutter_slidable: ^2.0.0
   cupertino_icons: ^1.0.2
   route_detector: ^1.0.1

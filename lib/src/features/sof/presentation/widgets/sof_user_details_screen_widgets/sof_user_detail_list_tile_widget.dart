@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:oivan_app/src/features/sof/domain/entities/sof_users_details_entity.dart';
 import 'package:oivan_app/src/utils/base/custom_base_text.dart';
 
 class SofUserDetailsListTileWidget extends StatelessWidget {
-  const SofUserDetailsListTileWidget({super.key});
+  final SofUserDetailsEntity sofUserDetailsEntity;
+  const SofUserDetailsListTileWidget(
+      {super.key, required this.sofUserDetailsEntity});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: const Padding(
-        padding: EdgeInsets.only(bottom: 9),
+      title: Padding(
+        padding: const EdgeInsets.only(bottom: 9),
         child: CustomBaseText(
-          title: 'Reputation Type : answer_accepted',
+          title:
+              'Reputation Type : ${sofUserDetailsEntity.reputationHistoryType}',
           fontSize: 14,
           fontWeight: FontWeight.w600,
         ),
@@ -19,12 +23,12 @@ class SofUserDetailsListTileWidget extends StatelessWidget {
       isThreeLine: true,
       subtitle: CustomBaseText(
         title:
-            'Change : 10\nCreated At : ${DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(1222430705 * 1000))}',
+            'Change : ${sofUserDetailsEntity.reputationChange}\nCreated At : ${DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(sofUserDetailsEntity.creationDate! * 1000))}',
         color: Colors.grey[500],
         fontSize: 13,
       ),
-      trailing: const CustomBaseText(
-        title: 'Post ID : 121212',
+      trailing: CustomBaseText(
+        title: 'Post ID : ${sofUserDetailsEntity.postId}',
         fontSize: 13,
       ),
     );

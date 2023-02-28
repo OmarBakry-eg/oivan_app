@@ -3,6 +3,7 @@ import 'package:oivan_app/src/features/sof/domain/entities/sof_users_details_ent
 class SofUsersDetailsModel extends SofUsersDetailsEntity {
   const SofUsersDetailsModel({
     super.items,
+    super.hasMore
   });
 
   factory SofUsersDetailsModel.fromJson(Map<String, dynamic> json) =>
@@ -11,6 +12,7 @@ class SofUsersDetailsModel extends SofUsersDetailsEntity {
             ? []
             : List<SofUserDetailsModel>.from(
                 json["items"]!.map((x) => SofUserDetailsModel.fromJson(x))),
+                hasMore: json["has_more"],
       );
 
   Map<String, dynamic> toJson() => {

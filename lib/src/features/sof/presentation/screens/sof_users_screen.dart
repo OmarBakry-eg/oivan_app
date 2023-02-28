@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oivan_app/src/features/sof/presentation/widgets/sof_users_screen_widgets/sof_local_list_widget.dart';
 import 'package:oivan_app/src/utils/base/custom_app_bar.dart';
 import 'package:oivan_app/src/utils/ui/my_colors.dart';
 import '../widgets/sof_users_screen_widgets/sof_list_widget.dart';
@@ -18,7 +19,7 @@ class SOFUsersScreen extends StatelessWidget {
         body: TabBarView(
           children: [
             SOFUsersListWidget(),
-            SOFUsersListWidget(),
+            SOFUsersLocalListWidget(),
           ],
         ),
       ),

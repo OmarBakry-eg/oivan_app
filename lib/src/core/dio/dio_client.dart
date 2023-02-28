@@ -5,7 +5,7 @@ import 'package:oivan_app/src/core/dio/result.dart';
 import 'package:oivan_app/src/core/errors/logger.dart';
 import 'package:oivan_app/src/core/internet/internet_info.dart';
 import 'dio_exception.dart';
-import 'only_message_model.dart';
+import 'error_model.dart';
 
 class DioClient {
   final InternetInfo _internetInfo;
@@ -38,25 +38,17 @@ class DioClient {
 
   Result _switchFunc(DioError error) {
     switch (error.response?.statusCode) {
-      case 401:
+      case 404:
+      case 400:
+      case 412:
         {
           var errorData = error.response?.data.runtimeType == String
-              ? OnlyMessageModel.fromJson(json.decode(error.response?.data))
-              : OnlyMessageModel.fromJson(error.response?.data);
-          return Result.errorWith401(
-              "${errorData.message} ${error.response?.statusCode}");
+              ? ErrorModel.fromJson(json.decode(error.response?.data))
+              : ErrorModel.fromJson(error.response?.data);
+          return Result.error(
+              "${errorData.errorMessage} ${error.response?.statusCode}",
+              statusCode: error.response?.statusCode);
         }
-      // case 404:
-      // case 400:
-      // case 412:
-      //   {
-      //     var errorData = error.response?.data.runtimeType == String
-      //         ? OnlyMessageModel.fromJson(json.decode(error.response?.data))
-      //         : OnlyMessageModel.fromJson(error.response?.data);
-      //     return Result.error(
-      //         "${errorData.message} ${error.response?.statusCode}",
-      //         statusCode: error.response?.statusCode);
-      //   }
       default:
         {
           String errorMessage = DioExceptions.fromDioError(error).toString();
@@ -68,7 +60,8 @@ class DioClient {
     }
   }
 
-  Future<Result> get(String api,{
+  Future<Result> get(
+    String api, {
     Map<String, dynamic>? queryParameters,
     String? fullURL,
     bool isLoading = false,
@@ -82,10 +75,8 @@ class DioClient {
     }
     if (interNetaAvailale) {
       try {
-        Response response = await _dio.get(
-          fullURL ?? url,
-          queryParameters : queryParameters
-        );
+        Response response =
+            await _dio.get(fullURL ?? url, queryParameters: queryParameters);
         if (!keepLoading && isLoading) {
           Constants.hideLoading();
         }

@@ -3,9 +3,11 @@ import 'package:equatable/equatable.dart';
 class SofUsersDetailsEntity extends Equatable {
   const SofUsersDetailsEntity({
     this.items,
+    this.hasMore
   });
 
   final List<SofUserDetailsEntity>? items;
+  final bool? hasMore;
 
   @override
   List<Object?> get props => [items];
