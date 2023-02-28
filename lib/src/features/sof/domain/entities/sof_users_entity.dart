@@ -15,14 +15,13 @@ class SofUsersEntity extends Equatable {
 @Entity()
 // ignore: must_be_immutable
 class SofUserEntity extends Equatable {
-  SofUserEntity({
-    this.reputation,
-    this.userId,
-    this.location,
-    this.profileImage,
-    this.displayName,
-    this.id = 0
-  });
+  SofUserEntity(
+      {this.reputation,
+      this.userId,
+      this.location,
+      this.profileImage,
+      this.displayName,
+      this.id = 0});
   @Id()
   int id;
   final int? reputation;
@@ -32,11 +31,6 @@ class SofUserEntity extends Equatable {
   final String? displayName;
 
   @override
-  List<Object?> get props => [
-        reputation,
-        userId,
-        location,
-        profileImage,
-        displayName,
-      ];
+  List<Object?> get props =>
+      [reputation, userId, location, profileImage, displayName, id];
 }

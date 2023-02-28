@@ -29,6 +29,8 @@ class SOFRemoteSourceImpl implements SOFRemoteSource {
       return SofUsersModel.fromJson(result.value);
     } else if (result is ErrorState) {
       throw ServerException(message: result.msg.toString());
+    } else if (result is NetworkErrorState) {
+      throw OfflineException(message: result.msg.toString());
     } else {
       throw ServerException();
     }
@@ -49,6 +51,8 @@ class SOFRemoteSourceImpl implements SOFRemoteSource {
       return SofUsersDetailsModel.fromJson(result.value);
     } else if (result is ErrorState) {
       throw ServerException(message: result.msg.toString());
+    } else if (result is NetworkErrorState) {
+      throw OfflineException(message: result.msg.toString());
     } else {
       throw ServerException();
     }

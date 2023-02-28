@@ -4,8 +4,14 @@ import 'package:oivan_app/src/features/sof/domain/entities/sof_users_details_ent
 import 'package:oivan_app/src/features/sof/domain/entities/sof_users_entity.dart';
 
 abstract class SOFDomainRepo {
+  //REMOTE
   Future<Either<Failure, SofUsersEntity>> getAllUsers(
       {String page = '1', String pageSize = '30'});
   Future<Either<Failure, SofUsersDetailsEntity>> getUserDetails(
       {String page = '1', String pageSize = '30', required String userID});
+
+  //LOCAL
+  List<SofUserEntity> getAllLocalUsers();
+  int addOneUser(SofUserEntity sofUserEntity);
+  Either<Failure, bool> removeOneUser(int id);
 }

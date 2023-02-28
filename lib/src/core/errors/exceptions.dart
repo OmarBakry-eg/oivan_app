@@ -3,9 +3,9 @@ class ServerException implements Exception {
   ServerException({this.message = 'Server Exception'});
 }
 
-class EmptyCacheException implements Exception {
+class LocalStorageException implements Exception {
   final String message;
-  EmptyCacheException({this.message = 'Empty Cache Exception'});
+  LocalStorageException({this.message = 'Local Storage Exception'});
 }
 
 class OfflineException implements Exception {
