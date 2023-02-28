@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:oivan_app/src/utils/ui/consts.dart';
 import 'package:dio/dio.dart';
 import 'package:oivan_app/src/core/dio/result.dart';
-//import 'package:oivan_app/src/core/dio/un_auth_model.dart';
 import 'package:oivan_app/src/core/errors/logger.dart';
 import 'package:oivan_app/src/core/internet/internet_info.dart';
 import 'dio_exception.dart';
@@ -12,7 +11,7 @@ class DioClient {
   final InternetInfo _internetInfo;
   DioClient(this._internetInfo);
 
-  static const String _devBaseURL = 'https://www.boredapi.com/api/activity/';
+  static const String _devBaseURL = 'https://api.stackexchange.com/2.2/users';
 
   static const Duration _duration = Duration(seconds: 10);
 
@@ -69,13 +68,14 @@ class DioClient {
     }
   }
 
-  Future<Result> get({
+  Future<Result> get(String api,{
+    Map<String, dynamic>? queryParameters,
     String? fullURL,
     bool isLoading = false,
     bool keepLoading = false,
     bool removeErrResult = false,
   }) async {
-    String url = _devBaseURL;
+    String url = _devBaseURL + api;
     bool interNetaAvailale = await _internetInfo.isConnected;
     if (isLoading) {
       Constants.showLoading();
@@ -84,6 +84,7 @@ class DioClient {
       try {
         Response response = await _dio.get(
           fullURL ?? url,
+          queryParameters : queryParameters
         );
         if (!keepLoading && isLoading) {
           Constants.hideLoading();
