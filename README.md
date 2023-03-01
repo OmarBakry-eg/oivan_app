@@ -1,16 +1,26 @@
 # oivan_app
 
-A new Flutter project.
+Simple app created with Flutter that's explain smooth scrolling and storing data locally using reactive way of coding.
 
-## Getting Started
+## How to use
 
-This project is a starting point for a Flutter application.
+Simply clone the app and run it, In case of API unauthorized error you can contact API [authors](https://api.stackexchange.com/)
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## What used in project
+- App Architecture: Clean Architecture (AKA: Three-tier Architecture, Feature Architecture,..etc)
+- Image Loader : cached_network_image
+- State management : BloC 
+- Dependency Injection : get_it
+- Local Storage : Hive
+- Networking : Dio
+- Routing : Go Router, Route Detector
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Unit Test
+- [Local Storage](https://github.com/OmarBakry-eg/oivan_app/blob/main/test/local_test/local_test.dart)
+- [Remote API calling](https://github.com/OmarBakry-eg/oivan_app/blob/main/test/remote_test/remote_test.dart)
+- [Repository](https://github.com/OmarBakry-eg/oivan_app/blob/main/test/repo/repo_test.dart)
+- [Cubit](https://github.com/OmarBakry-eg/oivan_app/blob/main/test/bloc_test/bloc_test.dart)
+
+# Video
+## [Youtube link](https://www.youtube.com/watch?v=rIWjDP42whQ)
