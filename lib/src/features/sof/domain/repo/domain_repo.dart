@@ -12,6 +12,6 @@ abstract class SOFDomainRepo {
 
   //* LOCAL
   List<SofUserEntity> getAllLocalUsers();
-  int addOneUser(SofUserEntity sofUserEntity);
-  Either<Failure, bool> removeOneUser(int id);
+  Future<int> addOneUser(SofUserEntity sofUserEntity);
+  Future<Either<Failure, bool>> removeOneUser(dynamic id);
 }

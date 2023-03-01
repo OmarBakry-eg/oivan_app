@@ -26,7 +26,7 @@ class SofUsersModel extends SofUsersEntity {
 
 // ignore: must_be_immutable
 class SofUserModel extends SofUserEntity {
-  SofUserModel({
+   SofUserModel({
     super.reputation,
     super.userId,
     super.location,

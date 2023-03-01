@@ -17,7 +17,8 @@ import 'features/sof/domain/usecase/remote_usecases/get_user_details.dart';
 final sl = GetIt.instance;
 Future<void> init() async {
   //* BLOC
-  sl.registerFactory<SofUsersCubit>(() => SofUsersCubit(sl(), sl(), sl(), sl(), sl()));
+  sl.registerFactory<SofUsersCubit>(
+      () => SofUsersCubit(sl(), sl(), sl(), sl(), sl()));
 
   //* USECASES
   sl.registerLazySingleton<AddOneUser>(() => AddOneUser(sl()));
@@ -46,4 +47,5 @@ Future<void> init() async {
   sl.registerLazySingleton<InternetInfo>(() => InternetInfoImpl(sl()));
 
   sl.registerLazySingleton(() => InternetConnectionChecker());
+
 }

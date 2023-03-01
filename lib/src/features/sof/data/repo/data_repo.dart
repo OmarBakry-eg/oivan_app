@@ -49,16 +49,17 @@ class SOFDataRepoImpl implements SOFDomainRepo {
   }
 
   @override
-  int addOneUser(SofUserEntity sofUserEntity) =>
-      _sofLocalSourceImpl.addOneUser(sofUserEntity);
+  Future<int> addOneUser(SofUserEntity sofUserEntity) async =>
+      await _sofLocalSourceImpl.addOneUser(sofUserEntity);
 
   @override
   List<SofUserEntity> getAllLocalUsers() => _sofLocalSourceImpl.getAllUsers();
 
   @override
-  Either<Failure, bool> removeOneUser(int id) {
+  Future<Either<Failure, bool>> removeOneUser(dynamic id)async {
     try {
-      return Right(_sofLocalSourceImpl.removeOneUser(id));
+      await _sofLocalSourceImpl.removeOneUser(id);
+      return const Right(true);
     } on LocalStorageException catch (e) {
       return Left(LocalStorageFailure(message: e.message));
     }

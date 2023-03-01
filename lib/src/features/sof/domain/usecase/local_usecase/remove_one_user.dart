@@ -7,5 +7,5 @@ class RemoveOneUser {
 
   const RemoveOneUser(this._repo);
 
-  Either<Failure, bool> call(int id) => _repo.removeOneUser(id);
+  Future<Either<Failure, bool>> call(dynamic id) async => await _repo.removeOneUser(id);
 }

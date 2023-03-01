@@ -15,7 +15,8 @@ class SofUsersLoadingState extends SofUsersState {}
 class SofUsersLoadedState extends SofUsersState {
   final List<SofUserEntity> sofUserEntityList;
   final bool hasReachedMax;
-  const SofUsersLoadedState({required this.sofUserEntityList,required this.hasReachedMax});
+  const SofUsersLoadedState(
+      {required this.sofUserEntityList, required this.hasReachedMax});
   @override
   List<Object> get props => [sofUserEntityList];
 }
@@ -31,11 +32,11 @@ class SofUsersErrorState extends SofUsersState {
 //* REMOTE SofUsersDetails
 class SofUsersDetailsLoadingState extends SofUsersState {}
 
-
 class SofUsersDetailsLoadedState extends SofUsersState {
   final List<SofUserDetailsEntity> sofUsersDetailsEntityList;
   final bool hasReachedMax;
-  const SofUsersDetailsLoadedState({required this.sofUsersDetailsEntityList,required this.hasReachedMax});
+  const SofUsersDetailsLoadedState(
+      {required this.sofUsersDetailsEntityList, required this.hasReachedMax});
   @override
   List<Object> get props => [sofUsersDetailsEntityList];
 }
@@ -54,4 +55,15 @@ class SofLocalUsersState extends SofUsersState {
   const SofLocalUsersState({required this.sofUsersList});
   @override
   List<Object> get props => [sofUsersList];
+}
+
+class SofLocalNewState extends SofUsersState {
+}
+
+class SofLocalUsersErrorState extends SofUsersState {
+  final String message;
+
+  const SofLocalUsersErrorState({required this.message});
+  @override
+  List<Object> get props => [message];
 }

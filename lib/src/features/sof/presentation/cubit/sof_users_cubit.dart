@@ -8,7 +8,6 @@ import 'package:oivan_app/src/core/errors/logger.dart';
 import 'package:oivan_app/src/features/sof/domain/entities/sof_users_entity.dart';
 import 'package:oivan_app/src/features/sof/domain/usecase/remote_usecases/get_all_users.dart';
 import 'package:oivan_app/src/features/sof/domain/usecase/remote_usecases/get_user_details.dart';
-
 import '../../../../core/errors/failures.dart';
 import '../../../../utils/ui/consts.dart';
 import '../../domain/entities/sof_users_details_entity.dart';
@@ -30,6 +29,60 @@ class SofUsersCubit extends Cubit<SofUsersState> {
       this._getAllUsers, this._getUserDetails)
       : super(SofUsersInitialState());
 
+//? -----------------------------------------------------------------------
+
+//* Logic IMPL
+  List<SofUserEntity> sofUserEntityLocalList = [];
+
+  bool isItemFound(SofUserEntity sofUserEntity) {
+    int? n = sofUserEntityLocalList
+        .indexWhere((element) => element.userId == sofUserEntity.userId);
+    return n != -1;
+  }
+
+  dynamic bookmarkFunc(SofUserEntity sofUserEntity) {
+    if (isItemFound(sofUserEntity)) {
+      SofUserEntity? currentLocalUser = _getThisSpecifcUser(sofUserEntity);
+      logError('sofUserEntity ${currentLocalUser?.key}');
+      return _removeOneUserFunc(currentLocalUser?.key);
+    }
+    return _addOneUserFunc(sofUserEntity);
+  }
+
+  List<SofUserEntity> getAllLocalUsers() {
+    emit(SofLocalNewState());
+    List<SofUserEntity> elements = _getAllLocalUsers();
+    sofUserEntityLocalList = elements;
+    emit(SofLocalUsersState(sofUsersList: sofUserEntityLocalList));
+    return sofUserEntityLocalList;
+  }
+
+//! Private Functions
+  SofUserEntity? _getThisSpecifcUser(SofUserEntity sofUserEntity) {
+    return sofUserEntityLocalList[sofUserEntityLocalList
+        .indexWhere((element) => element.userId == sofUserEntity.userId)];
+  }
+
+  Future<int> _addOneUserFunc(SofUserEntity sofUserEntity) async {
+    emit(SofLocalNewState());
+    int newElement = await _addOneUser(sofUserEntity);
+    sofUserEntityLocalList.add(sofUserEntity);
+    emit(SofLocalUsersState(sofUsersList: sofUserEntityLocalList));
+    return newElement;
+  }
+
+  Future<dynamic> _removeOneUserFunc(dynamic id) async {
+    Either<Failure, bool> removeFunc = await _removeOneUser(id);
+    return removeFunc.fold((l) {
+      Constants.showMessage(description: l.message);
+      emit(SofLocalUsersErrorState(message: l.message));
+    }, (r) {
+      return getAllLocalUsers();
+    });
+  }
+
+//? -----------------------------------------------------------------------
+
 //* Remote IMPL
   int _sofUserspage = 1, _sofUsersDetailspage = 1;
 
@@ -41,6 +94,11 @@ class SofUsersCubit extends Cubit<SofUsersState> {
 
   final ScrollController scrollController = ScrollController();
   final ScrollController scrollControllerDetails = ScrollController();
+
+  void clearDataFromUserDetails() {
+    _sofUserDetailsEntityList.clear();
+    _sofUsersDetailspage = 1;
+  }
 
   Future getAllUsers() async {
     logInfo('getAllUsers called');
@@ -113,8 +171,6 @@ class SofUsersCubit extends Cubit<SofUsersState> {
             .jumpTo(scrollControllerDetails.position.maxScrollExtent);
       });
       return null;
-      // return SofUsersDetailsPaginationLoadingState(
-      //     sofUsersDetailsEntityList: _sofUserDetailsEntityList);
     } else {
       return SofUsersDetailsLoadingState();
     }

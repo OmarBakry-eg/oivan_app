@@ -19,6 +19,7 @@ class _SOFUsersListWidgetState extends State<SOFUsersListWidget>
   void initState() {
     sofUsersCubit = BlocProvider.of<SofUsersCubit>(context);
     sofUsersCubit.setupScrollController(false);
+    sofUsersCubit.getAllLocalUsers();
     sofUsersCubit.getAllUsers();
     super.initState();
   }

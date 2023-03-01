@@ -193,14 +193,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
-  cryptography:
-    dependency: transitive
-    description:
-      name: cryptography
-      sha256: ffd770340e5a48f57e473c42d9036a773c43b396e80b41a2dd164ffaf53f57a4
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.1"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -384,6 +376,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
+  hive:
+    dependency: "direct main"
+    description:
+      name: hive
+      sha256: "8dcf6db979d7933da8217edcec84e9df1bdb4e4edc7fc77dbd5aa74356d6d941"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.3"
+  hive_flutter:
+    dependency: "direct main"
+    description:
+      name: hive_flutter
+      sha256: dca1da446b1d808a51689fb5d0c6c9510c0a2ba01e22805d492c73b68e33eecc
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
+  hive_generator:
+    dependency: "direct dev"
+    description:
+      name: hive_generator
+      sha256: "65998cc4d2cd9680a3d9709d893d2f6bb15e6c1f92626c3f1fa650b4b3281521"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   http:
     dependency: transitive
     description:
@@ -504,30 +520,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
-  objectbox:
-    dependency: "direct main"
-    description:
-      name: objectbox
-      sha256: c18d41f4e81e5a30fc0e2200e9e8306f5ccc8a9b61fe3746426359690c33dc7b
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.7.2"
-  objectbox_flutter_libs:
-    dependency: "direct main"
-    description:
-      name: objectbox_flutter_libs
-      sha256: "179a2edfca5eb80abee6e829ebff69872ad20c9f07c2527fe9d098f4bf5a5b83"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.7.2"
-  objectbox_generator:
-    dependency: "direct dev"
-    description:
-      name: objectbox_generator
-      sha256: "728a9ccf4d6a2ac44a016f6cb9798e4a31ee92b79828526181e0de97a3506c28"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.7.2"
   octo_image:
     dependency: transitive
     description:
@@ -709,6 +701,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.7"
+  source_helper:
+    dependency: transitive
+    description:
+      name: source_helper
+      sha256: "3b67aade1d52416149c633ba1bb36df44d97c6b51830c2198e934e3fca87ca1f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.3"
   source_span:
     dependency: transitive
     description:
