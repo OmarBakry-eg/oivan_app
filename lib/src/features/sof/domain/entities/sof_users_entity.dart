@@ -13,7 +13,8 @@ class SofUsersEntity extends Equatable {
 }
 
 @HiveType(typeId: 1)
-class SofUserEntity extends HiveObject {
+// ignore: must_be_immutable
+class SofUserEntity extends HiveObject implements Equatable {
   SofUserEntity({
     this.reputation,
     this.userId,
@@ -31,4 +32,16 @@ class SofUserEntity extends HiveObject {
   final String? profileImage;
   @HiveField(4)
   final String? displayName;
+
+  @override
+  List<Object?> get props => [
+        reputation,
+        userId,
+        location,
+        profileImage,
+        displayName,
+      ];
+
+  @override
+  bool? get stringify => null;
 }

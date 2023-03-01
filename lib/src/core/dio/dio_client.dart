@@ -39,6 +39,7 @@ class DioClient {
   Result _switchFunc(DioError error) {
     switch (error.response?.statusCode) {
       case 404:
+      case 403:
       case 400:
       case 412:
         {

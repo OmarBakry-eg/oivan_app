@@ -15,7 +15,7 @@ import 'features/sof/domain/usecase/remote_usecases/get_all_users.dart';
 import 'features/sof/domain/usecase/remote_usecases/get_user_details.dart';
 
 final sl = GetIt.instance;
-Future<void> init() async {
+Future<void> init({bool unitTest = false}) async {
   //* BLOC
   sl.registerFactory<SofUsersCubit>(
       () => SofUsersCubit(sl(), sl(), sl(), sl(), sl()));
@@ -38,7 +38,10 @@ Future<void> init() async {
   sl.registerLazySingleton<SOFLocalSourceImpl>(() => SOFLocalSourceImpl(sl()));
 
   //* CORE
-  final SOFLocalUsersDatabase sofDatabase = await SOFLocalUsersDatabase.init();
+
+  final SOFLocalUsersDatabase sofDatabase = unitTest
+      ? await SOFLocalUsersDatabase.initForUnitTest()
+      : await SOFLocalUsersDatabase.init();
 
   sl.registerLazySingleton(() => sofDatabase);
 
@@ -47,5 +50,4 @@ Future<void> init() async {
   sl.registerLazySingleton<InternetInfo>(() => InternetInfoImpl(sl()));
 
   sl.registerLazySingleton(() => InternetConnectionChecker());
-
 }

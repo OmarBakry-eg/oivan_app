@@ -1,15 +1,33 @@
+import 'dart:io';
+
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../features/sof/domain/entities/sof_users_entity.dart';
 
 class SOFLocalUsersDatabase {
   late Box<SofUserEntity> _usersbox;
+
+  SOFLocalUsersDatabase(this._usersbox);
+
   SOFLocalUsersDatabase._init(this._usersbox) {
     _usersbox = _usersbox;
   }
-  static Future<SOFLocalUsersDatabase> init() async {
+  static Future<SOFLocalUsersDatabase> init({bool unitTest = false}) async {
     await Hive.initFlutter();
     Hive.registerAdapter<SofUserEntity>(SofUserEntityAdapter());
+    final Box<SofUserEntity> store = await Hive.openBox('users');
+    return SOFLocalUsersDatabase._init(store);
+  }
+
+  static Future<SOFLocalUsersDatabase> initForUnitTest() async {
+    var path = Directory.current.path;
+    Hive
+      ..init(path)
+      ..registerAdapter(SofUserEntityAdapter());
+
+    //Always starts from a clean box
+    Hive.deleteBoxFromDisk('users');
+   // Hive.registerAdapter<SofUserEntity>(SofUserEntityAdapter());
     final Box<SofUserEntity> store = await Hive.openBox('users');
     return SOFLocalUsersDatabase._init(store);
   }
