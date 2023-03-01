@@ -17,6 +17,8 @@ class SOFDataRepoImpl implements SOFDomainRepo {
     required SOFLocalSourceImpl sofLocalSourceImpl,
   })  : _sofRemoteSourceImpl = sofRemoteSourceImpl,
         _sofLocalSourceImpl = sofLocalSourceImpl;
+
+  //*Remote IMPL
   @override
   Future<Either<Failure, SofUsersEntity>> getAllUsers(
       {String page = '1', String pageSize = '30'}) async {
@@ -48,6 +50,7 @@ class SOFDataRepoImpl implements SOFDomainRepo {
     }
   }
 
+//*local IMPL
   @override
   Future<int> addOneUser(SofUserEntity sofUserEntity) async =>
       await _sofLocalSourceImpl.addOneUser(sofUserEntity);
@@ -56,7 +59,7 @@ class SOFDataRepoImpl implements SOFDomainRepo {
   List<SofUserEntity> getAllLocalUsers() => _sofLocalSourceImpl.getAllUsers();
 
   @override
-  Future<Either<Failure, bool>> removeOneUser(dynamic id)async {
+  Future<Either<Failure, bool>> removeOneUser(dynamic id) async {
     try {
       await _sofLocalSourceImpl.removeOneUser(id);
       return const Right(true);

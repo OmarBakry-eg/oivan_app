@@ -9,7 +9,7 @@ abstract class SofUsersState extends Equatable {
 
 class SofUsersInitialState extends SofUsersState {}
 
-//* REMOTE SofUsers
+//* REMOTE SofUsers States
 class SofUsersLoadingState extends SofUsersState {}
 
 class SofUsersLoadedState extends SofUsersState {
@@ -29,7 +29,9 @@ class SofUsersErrorState extends SofUsersState {
   List<Object> get props => [message];
 }
 
-//* REMOTE SofUsersDetails
+//? -------------------------------------------------------------
+
+//* REMOTE SofUsersDetails States
 class SofUsersDetailsLoadingState extends SofUsersState {}
 
 class SofUsersDetailsLoadedState extends SofUsersState {
@@ -49,15 +51,16 @@ class SofUsersDetailsErrorState extends SofUsersState {
   List<Object> get props => [message];
 }
 
-//* LOCAL
+//? -------------------------------------------------------------
+
+//* LOCAL States
+class SofLocalNewState extends SofUsersState {}
+
 class SofLocalUsersState extends SofUsersState {
   final List<SofUserEntity> sofUsersList;
   const SofLocalUsersState({required this.sofUsersList});
   @override
   List<Object> get props => [sofUsersList];
-}
-
-class SofLocalNewState extends SofUsersState {
 }
 
 class SofLocalUsersErrorState extends SofUsersState {

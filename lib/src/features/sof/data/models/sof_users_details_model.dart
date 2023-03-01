@@ -1,10 +1,7 @@
 import 'package:oivan_app/src/features/sof/domain/entities/sof_users_details_entity.dart';
 
 class SofUsersDetailsModel extends SofUsersDetailsEntity {
-  const SofUsersDetailsModel({
-    super.items,
-    super.hasMore
-  });
+  const SofUsersDetailsModel({super.items, super.hasMore});
 
   factory SofUsersDetailsModel.fromJson(Map<String, dynamic> json) =>
       SofUsersDetailsModel(
@@ -12,7 +9,7 @@ class SofUsersDetailsModel extends SofUsersDetailsEntity {
             ? []
             : List<SofUserDetailsModel>.from(
                 json["items"]!.map((x) => SofUserDetailsModel.fromJson(x))),
-                hasMore: json["has_more"],
+        hasMore: json["has_more"],
       );
 
   Map<String, dynamic> toJson() => {

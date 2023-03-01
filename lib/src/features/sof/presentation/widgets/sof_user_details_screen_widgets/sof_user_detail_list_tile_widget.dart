@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oivan_app/src/features/sof/domain/entities/sof_users_details_entity.dart';
+import 'package:oivan_app/src/features/sof/presentation/cubit/sof_users_cubit.dart';
 import 'package:oivan_app/src/utils/base/custom_base_text.dart';
 
 class SofUserDetailsListTileWidget extends StatelessWidget {
@@ -10,6 +11,8 @@ class SofUserDetailsListTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final SofUsersCubit sofUsersCubit =
+        BlocProvider.of<SofUsersCubit>(context, listen: false);
     return ListTile(
       title: Padding(
         padding: const EdgeInsets.only(bottom: 9),
@@ -23,7 +26,7 @@ class SofUserDetailsListTileWidget extends StatelessWidget {
       isThreeLine: true,
       subtitle: CustomBaseText(
         title:
-            'Change : ${sofUserDetailsEntity.reputationChange}\nCreated At : ${DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(sofUserDetailsEntity.creationDate! * 1000))}',
+            'Change : ${sofUserDetailsEntity.reputationChange}\nCreated At : ${sofUsersCubit.dateConverterForDetails(sofUserDetailsEntity.creationDate)}',
         color: Colors.grey[500],
         fontSize: 13,
       ),

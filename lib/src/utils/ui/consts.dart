@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 mixin Constants {
-  static void unFocusFunc() =>
-      FocusScope.of(AppRoutes.navigatorKey.currentContext!).unfocus();
-
+  
   static Future<void> showLoading(
           {String? title, String? description, Function? onPressed}) async =>
       showDialog<void>(

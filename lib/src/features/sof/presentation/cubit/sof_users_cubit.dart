@@ -1,9 +1,9 @@
 import 'dart:async';
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 import 'package:oivan_app/src/core/errors/logger.dart';
 import 'package:oivan_app/src/features/sof/domain/entities/sof_users_entity.dart';
 import 'package:oivan_app/src/features/sof/domain/usecase/remote_usecases/get_all_users.dart';
@@ -22,16 +22,18 @@ class SofUsersCubit extends Cubit<SofUsersState> {
   final AddOneUser _addOneUser;
   final GetAllLocalUsers _getAllLocalUsers;
   final RemoveOneUser _removeOneUser;
+
   //* REMOTE
   final GetAllUsers _getAllUsers;
   final GetUserDetails _getUserDetails;
+
   SofUsersCubit(this._addOneUser, this._getAllLocalUsers, this._removeOneUser,
       this._getAllUsers, this._getUserDetails)
       : super(SofUsersInitialState());
 
 //? -----------------------------------------------------------------------
 
-//* Logic IMPL
+//* Local IMPL
   List<SofUserEntity> sofUserEntityLocalList = [];
 
   bool isItemFound(SofUserEntity sofUserEntity) {
@@ -40,10 +42,10 @@ class SofUsersCubit extends Cubit<SofUsersState> {
     return n != -1;
   }
 
-  dynamic bookmarkFunc(SofUserEntity sofUserEntity) {
+  dynamic addOrDeleteUserFunc(SofUserEntity sofUserEntity) {
     if (isItemFound(sofUserEntity)) {
       SofUserEntity? currentLocalUser = _getThisSpecifcUser(sofUserEntity);
-      logError('sofUserEntity ${currentLocalUser?.key}');
+      logWarning('sofUserEntity ${currentLocalUser?.key}');
       return _removeOneUserFunc(currentLocalUser?.key);
     }
     return _addOneUserFunc(sofUserEntity);
@@ -57,7 +59,7 @@ class SofUsersCubit extends Cubit<SofUsersState> {
     return sofUserEntityLocalList;
   }
 
-//! Private Functions
+//! Private Local Functions
   SofUserEntity? _getThisSpecifcUser(SofUserEntity sofUserEntity) {
     return sofUserEntityLocalList[sofUserEntityLocalList
         .indexWhere((element) => element.userId == sofUserEntity.userId)];
@@ -83,34 +85,15 @@ class SofUsersCubit extends Cubit<SofUsersState> {
 
 //? -----------------------------------------------------------------------
 
-//* Remote IMPL
-  int _sofUserspage = 1, _sofUsersDetailspage = 1;
+//* Remote SofUsersDetails IMPL
 
-  SofUsersEntity _sofUsersEntity = const SofUsersEntity();
+  int _sofUsersDetailspage = 1;
+
   SofUsersDetailsEntity _sofUsersDetailsEntity = const SofUsersDetailsEntity();
 
-  List<SofUserEntity> _sofUserEntityList = [];
   List<SofUserDetailsEntity> _sofUserDetailsEntityList = [];
 
-  final ScrollController scrollController = ScrollController();
   final ScrollController scrollControllerDetails = ScrollController();
-
-  void clearDataFromUserDetails() {
-    _sofUserDetailsEntityList.clear();
-    _sofUsersDetailspage = 1;
-  }
-
-  Future getAllUsers() async {
-    logInfo('getAllUsers called');
-    final SofUsersState? newState = _checkIfModelHasMoreData(false);
-    if (newState != null) {
-      emit(newState);
-    }
-    final Either<Failure, SofUsersEntity> res = await _getAllUsers(
-      page: _sofUserspage.toString(),
-    );
-    emit(_emitSofUsersLoadedStateOrSofUsersErrorState(res));
-  }
 
   Future getUserDetails({required String userID}) async {
     logInfo('getUserDetails called');
@@ -128,33 +111,78 @@ class SofUsersCubit extends Cubit<SofUsersState> {
     emit(_emitSofUsersDetailsLoadedStateOrSofUsersDetailsErrorState(res));
   }
 
-  void setupScrollController(bool useSOFDetails, {String? userID}) {
-    if (useSOFDetails) {
-      scrollControllerDetails.addListener(() {
-        if (scrollControllerDetails.position.atEdge) {
-          if (scrollControllerDetails.position.pixels != 0) {
-            if (_sofUsersDetailspage >= 25) {
-              return;
-            }
-            getUserDetails(userID: userID!);
-          }
-        }
-      });
-    } else {
-      scrollController.addListener(() {
-        if (scrollController.position.atEdge) {
-          if (scrollController.position.pixels != 0) {
-            if (_sofUserspage >= 25) {
-              return;
-            }
-            getAllUsers();
-          }
-        }
-      });
-    }
+  void clearDataFromUserDetails() {
+    _sofUserDetailsEntityList.clear();
+    _sofUsersDetailspage = 1;
   }
 
-//! Private Functions
+  void setupScrollDetailsController(String? userID) {
+    scrollControllerDetails.addListener(() {
+      if (scrollControllerDetails.position.atEdge) {
+        if (scrollControllerDetails.position.pixels != 0) {
+          if (_sofUsersDetailspage >= 25) {
+            return;
+          }
+          getUserDetails(userID: userID!);
+        }
+      }
+    });
+  }
+
+  String dateConverterForDetails(int? creationDate) {
+    return creationDate == null
+        ? ''
+        : DateFormat.yMMMd()
+            .format(DateTime.fromMillisecondsSinceEpoch(creationDate * 1000));
+  }
+
+//? -----------------------------------------------------------------------
+
+//* Remote SofUsers IMPL
+
+  int _sofUserspage = 1;
+
+  SofUsersEntity _sofUsersEntity = const SofUsersEntity();
+
+  List<SofUserEntity> _sofUserEntityList = [];
+
+  final ScrollController scrollController = ScrollController();
+
+  Future getAllUsers() async {
+    logInfo('getAllUsers called');
+    final SofUsersState? newState = _checkIfModelHasMoreData(false);
+    if (newState != null) {
+      emit(newState);
+    }
+    final Either<Failure, SofUsersEntity> res = await _getAllUsers(
+      page: _sofUserspage.toString(),
+    );
+    emit(_emitSofUsersLoadedStateOrSofUsersErrorState(res));
+  }
+
+  void setupScrollController() {
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        if (scrollController.position.pixels != 0) {
+          if (_sofUserspage >= 25) {
+            return;
+          }
+          getAllUsers();
+        }
+      }
+    });
+  }
+
+//? -----------------------------------------------------------------------
+
+//! Private Remote Functions (Sof User and Sof User Details)
+
+  void _jumpToMaxScrollExtent(ScrollController scrollController) {
+    Timer(const Duration(milliseconds: 30), () {
+      scrollController.jumpTo(scrollController.position.maxScrollExtent);
+    });
+  }
+
   SofUsersState? _checkIfModelHasMoreData(bool useSOFDetails) {
     if (useSOFDetails) {
       return _checkMoreItemsInSofUserDetails();
@@ -166,10 +194,7 @@ class SofUsersCubit extends Cubit<SofUsersState> {
     if (_sofUsersDetailsEntity.hasMore != null &&
         _sofUsersDetailsEntity.hasMore!) {
       _sofUsersDetailspage = _sofUsersDetailspage + 1;
-      Timer(const Duration(milliseconds: 30), () {
-        scrollControllerDetails
-            .jumpTo(scrollControllerDetails.position.maxScrollExtent);
-      });
+      _jumpToMaxScrollExtent(scrollControllerDetails);
       return null;
     } else {
       return SofUsersDetailsLoadingState();
@@ -179,12 +204,8 @@ class SofUsersCubit extends Cubit<SofUsersState> {
   SofUsersState? _checkMoreItemsInSofUser() {
     if (_sofUsersEntity.hasMore != null && _sofUsersEntity.hasMore!) {
       _sofUserspage = _sofUserspage + 1;
-      Timer(const Duration(milliseconds: 30), () {
-        scrollController.jumpTo(scrollController.position.maxScrollExtent);
-      });
+      _jumpToMaxScrollExtent(scrollController);
       return null;
-      // return SofUsersPaginationLoadingState(
-      //     sofUserEntityList: _sofUserEntityList);
     } else {
       return SofUsersLoadingState();
     }
@@ -221,7 +242,9 @@ class SofUsersCubit extends Cubit<SofUsersState> {
     });
   }
 
-//! Core
+//? -----------------------------------------------------------------------
+
+//! Core Logic
   @override
   Future<void> close() {
     scrollController.dispose();

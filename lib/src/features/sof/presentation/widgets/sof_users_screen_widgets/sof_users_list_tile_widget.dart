@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:oivan_app/src/core/errors/logger.dart';
+//import 'package:oivan_app/src/core/errors/logger.dart';
 import 'package:oivan_app/src/features/sof/domain/entities/sof_users_entity.dart';
 import 'package:oivan_app/src/features/sof/presentation/cubit/sof_users_cubit.dart';
 import 'package:oivan_app/src/utils/base/custom_base_text.dart';
@@ -39,10 +39,10 @@ class SOFUserListTileWidget extends StatelessWidget {
         ),
         trailing: IconButton(
           onPressed: () {
-            sofUsersCubit.bookmarkFunc(sofUserEntity);
+            sofUsersCubit.addOrDeleteUserFunc(sofUserEntity);
           },
-          icon: BlocConsumer<SofUsersCubit, SofUsersState>(
-            listener: (p, c) => logWarning("c is $c"),
+          icon: BlocBuilder<SofUsersCubit, SofUsersState>(
+            //listener: (p, c) => logWarning("c is $c"),
             bloc: sofUsersCubit,
             buildWhen: (p, c) =>
                 c is SofLocalUsersState ||

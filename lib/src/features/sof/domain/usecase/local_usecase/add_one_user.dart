@@ -6,5 +6,6 @@ class AddOneUser {
 
   const AddOneUser(this._repo);
 
-  Future<int> call(SofUserEntity sofUserEntity) async=>await _repo.addOneUser(sofUserEntity);
+  Future<int> call(SofUserEntity sofUserEntity) async =>
+      await _repo.addOneUser(sofUserEntity);
 }

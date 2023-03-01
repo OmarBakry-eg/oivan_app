@@ -15,10 +15,12 @@ class SofUserDetailsListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SofUsersCubit sofUsersCubit = BlocProvider.of<SofUsersCubit>(context);
-    sofUsersCubit.setupScrollController(true, userID: userID);
-    sofUsersCubit.getUserDetails(userID: userID);
     return RouteDetector(
       routeObserver: AppRoutes.routeObserver,
+      onShowingScreen: () {
+        sofUsersCubit.setupScrollDetailsController(userID);
+        sofUsersCubit.getUserDetails(userID: userID);
+      },
       onLeaveScreen: () {
         sofUsersCubit.clearDataFromUserDetails();
       },

@@ -14,7 +14,7 @@ class SofUsersEntity extends Equatable {
 
 @HiveType(typeId: 1)
 class SofUserEntity extends HiveObject {
-   SofUserEntity({
+  SofUserEntity({
     this.reputation,
     this.userId,
     this.location,
@@ -31,8 +31,4 @@ class SofUserEntity extends HiveObject {
   final String? profileImage;
   @HiveField(4)
   final String? displayName;
-
-  // @override
-  // List<Object?> get props =>
-  //     [reputation, userId, location, profileImage, displayName];
 }
