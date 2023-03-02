@@ -1,5 +1,4 @@
 import 'package:oivan_app/src/features/sof/presentation/screens/sof_user_details_screen.dart';
-
 import '../../../features/sof/presentation/screens/sof_users_screen.dart';
 import 'route_strings.dart';
 import 'package:flutter/material.dart';

@@ -25,9 +25,8 @@ class SOFLocalUsersDatabase {
       ..init(path)
       ..registerAdapter(SofUserEntityAdapter());
 
-    //Always starts from a clean box
     Hive.deleteBoxFromDisk('users');
-   // Hive.registerAdapter<SofUserEntity>(SofUserEntityAdapter());
+
     final Box<SofUserEntity> store = await Hive.openBox('users');
     return SOFLocalUsersDatabase._init(store);
   }
