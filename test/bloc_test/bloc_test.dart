@@ -14,6 +14,8 @@ void main() async {
     sofUsersCubit = SofUsersCubit(di.sl(), di.sl(), di.sl(), di.sl(), di.sl());
   });
 
+  tearDownAll(() => sofUsersCubit.close());
+
   group('SofUsersCubit', () {
     test('init state is SofUsersInitialState', () {
       expect(sofUsersCubit.state, SofUsersInitialState());

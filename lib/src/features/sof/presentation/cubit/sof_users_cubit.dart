@@ -247,8 +247,9 @@ class SofUsersCubit extends Cubit<SofUsersState> {
 //! Core Logic
   @override
   Future<void> close() {
-    scrollController.dispose();
-    scrollControllerDetails.dispose();
+    scrollController.removeListener(() => scrollController.dispose());
+    scrollControllerDetails
+        .removeListener(() => scrollControllerDetails.dispose());
     return super.close();
   }
 }
